@@ -1,3 +1,11 @@
+# MISSION: Create a remote-controller music player.
+# STATUS: Research.
+# VERSION: 0.0.1
+# NOTES: Tweaking a fumbled CoPilot attempt.
+# DATE: 2026-03-04 06:44:37
+# FILE: conftest.py
+# AUTHOR: Randall Nagy
+#
 import pytest
 import tempfile
 import os

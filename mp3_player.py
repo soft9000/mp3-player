@@ -1,3 +1,11 @@
+# MISSION: Create a remote-controller music player.
+# STATUS: Research.
+# VERSION: 0.0.1
+# NOTES: Tweaking a fumbled CoPilot attempt.
+# DATE: 2026-03-04 10:25:30
+# FILE: mp3_player.py
+# AUTHOR: Microsoft CoPilot
+#
 import os
 import sqlite3
 import socket
@@ -241,7 +249,7 @@ class Mp3PlayerApp(tk.Tk):
         tk.Button(top_frame, text="Scan Folder...", command=self._scan_folder).pack(side=tk.LEFT, padx=2)
         tk.Button(top_frame, text="Play Default", command=self._play_default).pack(side=tk.LEFT, padx=2)
         tk.Button(top_frame, text="Play Selected", command=self._play_selected).pack(side=tk.LEFT, padx=2)
-        tk.Button(top_frame, text="Stop", command=self.player.stop).pack(side=tk.LEFT, padx=2)
+        tk.Button(top_frame, text="Stop", command=self._stop_selected).pack(side=tk.LEFT, padx=2)
         
         ttk.Label(top_frame, text='Playlist:').pack(side=tk.LEFT, padx=(20, 2))
         self.combo_playlist = ttk.Combobox(
@@ -334,6 +342,10 @@ class Mp3PlayerApp(tk.Tk):
             self.player.play()
         else:
             messagebox.showinfo("No Songs", f"No songs in selected playlist")
+
+    def _stop_selected(self):
+        """ Meh. """
+        self.player.stop()
     
     def _update_status(self, message):
         """Update status bar"""
