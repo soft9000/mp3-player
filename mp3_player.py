@@ -1,10 +1,10 @@
-# MISSION: Create a remote-controller music player.
-# STATUS: Research.
-# VERSION: 0.0.1
-# NOTES: Tweaking a fumbled CoPilot attempt.
-# DATE: 2026-03-04 10:25:30
+# MISSION: Create a remote-controlled music player / censor.
+# STATUS: Testing.
+# VERSION: 0.0.2
+# NOTES: Tweaking a fumbled CoPilot attempt. https://github.com/soft9000/mp3-player
+# DATE: 2026-10-29 06:20:30
 # FILE: mp3_player.py
-# AUTHOR: Microsoft CoPilot
+# AUTHOR: Total Pythoneering? =)
 #
 import os
 import sqlite3
@@ -162,11 +162,11 @@ class Mp3Player:
         self.thread = None
         self.status_callback = status_callback
     
-    def set_playlist(self, songs):
+    def set_playlist(self, songs, index):
         """Set the playlist and reset index"""
         self.stop()
         self.playlist = songs
-        self.index = 0
+        self.index = index
     
     def play(self):
         """Start playback"""
@@ -323,12 +323,20 @@ class Mp3PlayerApp(tk.Tk):
         for song_id, artist, title, path, status in self.song_list:
             display_text = f"[{song_id}] {artist} - {title} | Status: {status}"
             self.song_listbox.insert(tk.END, display_text)
+
+    def get_selected(self):
+        try:
+            zsel = self.song_listbox.selection_get()
+            isel = eval(zsel.split(' ')[0])[0]
+            return isel - 1
+        except:
+            return 0
     
     def _play_default(self):
         """Play songs from default playlists (0 or 1)"""
         songs = db_get_songs_by_playlists([0, 1])
         if songs:
-            self.player.set_playlist(songs)
+            self.player.set_playlist(songs, self.get_selected())
             self.player.play()
         else:
             messagebox.showinfo("No Songs", "No songs in default playlists")
@@ -338,7 +346,7 @@ class Mp3PlayerApp(tk.Tk):
         playlist_id = self.playlists[self.combo_playlist.current()][0]
         songs = db_get_songs_by_playlist(playlist_id)
         if songs:
-            self.player.set_playlist(songs)
+            self.player.set_playlist(songs, self.get_selected())
             self.player.play()
         else:
             messagebox.showinfo("No Songs", f"No songs in selected playlist")
